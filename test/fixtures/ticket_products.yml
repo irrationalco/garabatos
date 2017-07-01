@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ticket: one
+  product: one
+  ammount: 1.5
+  price: 1.5
+  discount: 1.5
+
+two:
+  ticket: two
+  product: two
+  ammount: 1.5
+  price: 1.5
+  discount: 1.5
