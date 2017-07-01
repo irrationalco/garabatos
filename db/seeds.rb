@@ -40,3 +40,15 @@ CSV.foreach('db/products.csv') do |line|
   end
   Product.create(name: line[0], types: types, categories: categories, sets: sets, codes: codes)
 end
+
+require 'date'
+
+CSV.foreach('db/tickets.csv') do |line|
+  time = DateTime.strptime(line[1], "%m/%d/%Y %H:%M")
+  #next if time.in_time_zone("Mexico City").year != 2017
+  Ticket.create(unit_id: line[0].to_i, time: time, number: line[2].to_i, shift_id: line[3].to_i, service_type_id: line[4].to_i)
+end
+
+CSV.foreach('db/productTickets.csv') do |line|
+  ProductTicket.create(product_id: line[0].to_i, ticket_id: line[1].to_i, ammount: line[2].to_f, price: line[3].to_f)
+end

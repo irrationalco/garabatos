@@ -17,7 +17,7 @@ class TicketsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create ticket" do
     assert_difference('Ticket.count') do
-      post tickets_url, params: { ticket: { number: @ticket.number, payment_method_id: @ticket.payment_method_id, service_type_id: @ticket.service_type_id, shift_id: @ticket.shift_id, time: @ticket.time, unit_id: @ticket.unit_id } }
+      post tickets_url, params: { ticket: { number: @ticket.number, service_type_id: @ticket.service_type_id, shift_id: @ticket.shift_id, time: @ticket.time, unit_id: @ticket.unit_id } }
     end
 
     assert_redirected_to ticket_url(Ticket.last)
@@ -34,7 +34,7 @@ class TicketsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update ticket" do
-    patch ticket_url(@ticket), params: { ticket: { number: @ticket.number, payment_method_id: @ticket.payment_method_id, service_type_id: @ticket.service_type_id, shift_id: @ticket.shift_id, time: @ticket.time, unit_id: @ticket.unit_id } }
+    patch ticket_url(@ticket), params: { ticket: { number: @ticket.number, service_type_id: @ticket.service_type_id, shift_id: @ticket.shift_id, time: @ticket.time, unit_id: @ticket.unit_id } }
     assert_redirected_to ticket_url(@ticket)
   end
 

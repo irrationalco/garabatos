@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170701032818) do
+ActiveRecord::Schema.define(version: 20170701043027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,17 @@ ActiveRecord::Schema.define(version: 20170701032818) do
     t.text "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "product_tickets", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "ticket_id"
+    t.float "ammount"
+    t.float "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_tickets_on_product_id"
+    t.index ["ticket_id"], name: "index_product_tickets_on_ticket_id"
   end
 
   create_table "product_types", force: :cascade do |t|
@@ -55,10 +66,28 @@ ActiveRecord::Schema.define(version: 20170701032818) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "tickets", force: :cascade do |t|
+    t.bigint "unit_id"
+    t.datetime "time"
+    t.integer "number"
+    t.bigint "shift_id"
+    t.bigint "service_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["service_type_id"], name: "index_tickets_on_service_type_id"
+    t.index ["shift_id"], name: "index_tickets_on_shift_id"
+    t.index ["unit_id"], name: "index_tickets_on_unit_id"
+  end
+
   create_table "units", force: :cascade do |t|
     t.text "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "product_tickets", "products"
+  add_foreign_key "product_tickets", "tickets"
+  add_foreign_key "tickets", "service_types"
+  add_foreign_key "tickets", "shifts"
+  add_foreign_key "tickets", "units"
 end
