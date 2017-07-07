@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :users
+
   resources :ticket_products
   resources :tickets
   resources :units
