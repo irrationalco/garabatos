@@ -27,3 +27,14 @@
 
 <%= link_to 'Edit', edit_product_path(@product) %> |
 <%= link_to 'Back', products_path %>
+
+<p>
+  <strong>Num:</strong>
+  <%= ProductTicket.where(product: @product).count %>
+</p>
+<p>By day of week</p>
+<%= column_chart ProductTicket.where(product: @product).joins(:ticket).group_by_day_of_week(:time).count.map{ |k, v| [I18n.t("date.day_names")[k], v] }%>
+<p>By month</p>
+<%= line_chart ProductTicket.where(product: @product).joins(:ticket).group_by_month(:time).count%>
+<p>By week</p>
+<%= line_chart ProductTicket.where(product: @product).joins(:ticket).group_by_week(:time).count%>

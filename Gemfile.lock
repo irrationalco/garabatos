@@ -77,8 +77,12 @@ GEM
     erubi (1.6.1)
     execjs (2.7.0)
     ffi (1.9.18)
+    font-awesome-rails (4.7.0.2)
+      railties (>= 3.2, < 5.2)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
+    groupdate (3.2.0)
+      activesupport (>= 3)
     i18n (0.8.4)
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
@@ -196,9 +200,11 @@ DEPENDENCIES
   bootstrap-sass (>= 3.3.7)
   byebug
   capybara (~> 2.13)
-  chartkick
+  chartkick (~> 2.0)
   coffee-rails (~> 4.2)
   devise
+  font-awesome-rails (>= 4.7.0.2)
+  groupdate (~> 3.0)
   jbuilder (~> 2.5)
   jquery-rails (>= 4.3.1)
   listen (>= 3.0.5, < 3.2)

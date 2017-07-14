@@ -1,2 +1,75 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "font-awesome";
+$sidebar-open-width: 200px;
+$sidebar-closed-width: 50px;
+#navbar {
+  height: 50px;
+  background: #273135;
+  border: none;
+  color: #89949B;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a p {
+  cursor: pointer;
+}
+
+#sidebar {
+  position: fixed;
+  height: 100%;
+  background: #273135;
+  color: #89949B;
+  padding-top: 10px;
+  width: $sidebar-open-width;
+  a {
+    color: inherit;
+  }
+  ul li {
+    cursor: pointer;
+    display: block;
+    a {
+      padding: 15px 20px;
+      display: block;
+    }
+    a:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    i {
+      margin-right: 10px;
+    }
+    p {
+      display: inline;
+    }
+  }
+}
+
+#sidebar.closed {
+  p {
+    display: none;
+  }
+  text-align: center;
+  a {
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  i {
+    margin: 0;
+    font-size: 1.5em;
+    line-height: 0.75em;
+    vertical-align: -15%;
+  }
+}
+
+#content {
+  margin-left: $sidebar-open-width;
+  background: #E9F0F5;
+}
+
+body {
+  padding-top: $navbar-height;
+}
