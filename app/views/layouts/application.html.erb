@@ -15,7 +15,7 @@
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
             <%= fa_icon 'bars'%>
           </button>
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href="<%= root_url %>">
             Garabatos
             <!-- todo, logo garabatos -->
           </a>
@@ -34,8 +34,8 @@
     </nav>
     <div id="sidebar" class="open">
       <ul class="list-unstyled">
-        <li><a id="toggle-button"><%= fa_icon 'bars' %><p>Toggle</p></a></li>
-        <li><a><%= fa_icon 'dashboard' %><p>Dashboard</p></a></li>
+        <%= sidebar_link 'bars', 'Toggle', nil, id: 'toggle-button' %>
+        <%= sidebar_link 'dashboard', 'Dashboard', dashboard_url %>
       </ul>
     </div>
     <div id="content">

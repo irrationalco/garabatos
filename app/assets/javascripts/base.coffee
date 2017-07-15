@@ -1,5 +1,5 @@
 $ ->
-  $('#toggle-button').click ->
+  $('#toggle-button a').click ->
     bar = $('#sidebar')
     if bar.hasClass 'open'
       bar.toggleClass 'open'

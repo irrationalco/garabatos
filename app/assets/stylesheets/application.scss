@@ -1,8 +1,12 @@
+@import "variables";
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
-$sidebar-open-width: 200px;
-$sidebar-closed-width: 50px;
+body {
+  padding-top: $navbar-height;
+  background: #f1f4f5;
+}
+
 #navbar {
   height: 50px;
   background: #273135;
@@ -10,12 +14,13 @@ $sidebar-closed-width: 50px;
   color: #89949B;
 }
 
-a:hover {
+a:hover, a:focus {
   text-decoration: none;
 }
 
 a p {
   cursor: pointer;
+  display: inline;
 }
 
 #sidebar {
@@ -34,42 +39,46 @@ a p {
     a {
       padding: 15px 20px;
       display: block;
+      &:hover {
+        background: rgba(0, 0, 0, 0.2);
+      }
+      i {
+        margin-right: 10px;
+      }
     }
-    a:hover {
-      background: rgba(0, 0, 0, 0.2);
-    }
-    i {
-      margin-right: 10px;
-    }
+  }
+  &.closed {
+    text-align: center;
     p {
-      display: inline;
+      display: none;
     }
-  }
-}
-
-#sidebar.closed {
-  p {
-    display: none;
-  }
-  text-align: center;
-  a {
-    margin: 0;
-    padding-left: 0;
-    padding-right: 0;
-  }
-  i {
-    margin: 0;
-    font-size: 1.5em;
-    line-height: 0.75em;
-    vertical-align: -15%;
+    a {
+      margin: 0;
+      padding-left: 0;
+      padding-right: 0;
+      i {
+        margin: 0;
+        font-size: 1.5em;
+        line-height: 0.75em;
+        vertical-align: -15%;
+      }
+    }
   }
 }
 
 #content {
   margin-left: $sidebar-open-width;
-  background: #E9F0F5;
+  padding: 20px;
 }
 
-body {
-  padding-top: $navbar-height;
+.panel {
+  margin-bottom: 20px;
+  box-shadow: none;
+  border: 1px solid #E6EBEC;
+  padding: 10px;
+  .panel-heading {
+    border-bottom: 1px solid #E6EBEC;
+    margin: -10px;
+    margin-bottom: 10px;
+  }
 }
