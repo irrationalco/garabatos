@@ -2,6 +2,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
+@import "pages";
 body {
   padding-top: $navbar-height;
   background: #f1f4f5;
@@ -75,10 +76,13 @@ a p {
   margin-bottom: 20px;
   box-shadow: none;
   border: 1px solid #E6EBEC;
-  padding: 10px;
+  padding: 10px 15px;
   .panel-heading {
     border-bottom: 1px solid #E6EBEC;
     margin: -10px;
     margin-bottom: 10px;
+  }
+  ol {
+    padding-left: 25px;
   }
 }

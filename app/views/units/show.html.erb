@@ -1,4 +1,12 @@
+<p id="notice"><%= notice %></p>
+
 <div id="dash-container">
+
+    <p>
+      <strong>Name:</strong>
+      <%= @unit.name %>
+    </p>
+
     <div class="panel">
         <div class="panel-heading">
             <h3 class="panel-title">Top 10 products</h3>
@@ -14,7 +22,7 @@
         <div class="panel-heading">
             <h3 class="panel-title">Top 10 products</h3>
         </div>
-        <%= line_chart top_products_chart_path, legend: "bottom" %>
+        <%= line_chart top_products_chart_unit_path(@unit), legend: "bottom" %>
     </div>
 
     <div class="panel">
@@ -32,14 +40,7 @@
         <div class="panel-heading">
             <h3 class="panel-title">Bottom 10 products</h3>
         </div>
-        <%= line_chart bottom_products_chart_path, legend: "bottom" %>
-    </div>
-
-    <div class="panel">
-        <div class="panel-heading">
-            <h3 class="panel-title">Units</h3>
-        </div>
-        <%= line_chart units_chart_path, legend: "bottom" %>
+        <%= line_chart bottom_products_chart_unit_path(@unit), legend: "bottom" %>
     </div>
 
     <div class="panel">
@@ -53,3 +54,6 @@
         </ol>
     </div>
 </div>
+
+<%= link_to 'Edit', edit_unit_path(@unit) %> |
+<%= link_to 'Back', units_path %>

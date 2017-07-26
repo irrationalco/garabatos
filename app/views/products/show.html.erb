@@ -7,22 +7,22 @@
 
 <p>
   <strong>Types:</strong>
-  <%= @product.types %>
+  <%= @types.join(',') %>
 </p>
 
 <p>
   <strong>Categories:</strong>
-  <%= @product.categories %>
+  <%= @categories.join(',') %>
 </p>
 
 <p>
   <strong>Sets:</strong>
-  <%= @product.sets %>
+  <%= @sets.join(',') %>
 </p>
 
 <p>
   <strong>Codes:</strong>
-  <%= @product.codes %>
+  <%= @product.codes.join(',') %>
 </p>
 
 <%= link_to 'Edit', edit_product_path(@product) %> |
@@ -38,3 +38,5 @@
 <%= line_chart ProductTicket.where(product: @product).joins(:ticket).group_by_month(:time).count%>
 <p>By week</p>
 <%= line_chart ProductTicket.where(product: @product).joins(:ticket).group_by_week(:time).count%>
+<p>By month of year</p>
+<%= column_chart ProductTicket.where(product: @product).joins(:ticket).group_by_month_of_year(:time).count.map{ |k, v| [I18n.t("date.month_names")[k], v] }%>

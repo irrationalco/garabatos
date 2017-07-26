@@ -10,6 +10,9 @@ class ProductsController < ApplicationController
   # GET /products/1
   # GET /products/1.json
   def show
+    @types = ProductType.where(id: @product.types).pluck(:name)
+    @categories = ProductCategory.where(id:  @product.categories).pluck(:name)
+    @sets = ProductSet.where(id: @product.sets).pluck(:name)
   end
 
   # GET /products/new
