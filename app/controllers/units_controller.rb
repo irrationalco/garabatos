@@ -24,6 +24,7 @@ class UnitsController < ApplicationController
     get_data
     @top_products_chart = Hash[ProductTicket.where(product_id: @top_ids)
                                             .joins(:ticket)
+                                            .where('"tickets"."unit_id" = ?', @unit.id)
                                             .group(:product_id)
                                             .group_by_month(:time)
                                             .count
@@ -39,6 +40,7 @@ class UnitsController < ApplicationController
     get_data
     @bottom_products_chart = Hash[ProductTicket.where(product_id: @bottom_ids)
                                                 .joins(:ticket)
+                                                .where('"tickets"."unit_id" = ?', @unit.id)
                                                 .group(:product_id)
                                                 .group_by_month(:time)
                                                 .count

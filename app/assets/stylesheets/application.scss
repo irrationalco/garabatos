@@ -15,7 +15,8 @@ body {
   color: #89949B;
 }
 
-a:hover, a:focus {
+a:hover,
+a:focus {
   text-decoration: none;
 }
 
@@ -81,8 +82,18 @@ a p {
     border-bottom: 1px solid #E6EBEC;
     margin: -10px;
     margin-bottom: 10px;
+    p {
+      margin: 0 0 -7px 8px;
+      font-size: 0.95em;
+      color: #999;
+    }
   }
   ol {
     padding-left: 25px;
   }
+}
+
+.chart-panel {
+  width: 30vw;
+  min-width: 400px;
 }

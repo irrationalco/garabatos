@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get 'dashboard', to: 'pages#dashboard'
   get 'top_products_chart', to: 'pages#top_products_chart'
   get 'bottom_products_chart', to: 'pages#bottom_products_chart'
+  get 'best_products_chart', to: 'pages#best_products_chart'
+  get 'worst_products_chart', to: 'pages#worst_products_chart'
   get 'units_chart', to: 'pages#units_chart'
 
   devise_for :users
