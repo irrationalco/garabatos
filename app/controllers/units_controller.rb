@@ -10,46 +10,52 @@ class UnitsController < ApplicationController
   # GET /units/1
   # GET /units/1.json
   def show
-    get_data
-    @top_products = @top_ids.map {|id| Product.find(id) }
-    @bottom_products = @bottom_ids.map { |id| Product.find(id) }
-    # no esta jalando
-    ids = Ticket.where('time > ?', 2.months.ago).ids
-    @trending_products = ProductTicket.where(ticket_id: ids).top(:product_id, 10).map do |id, count|
+    @top_products = top_ids.map {|id| Product.find(id) }
+    @bottom_products = bottom_ids.map { |id| Product.find(id) }
+    @best_products = best_ids.map {|id| Product.find(id) }
+    @worst_products = worst_ids.map { |id| Product.find(id) }
+
+    last_month = Ticket.group_by_month(:time).count.keys.sort[-1]
+    @trending_products = ProductTicket.joins(:ticket).where('time >= ?', last_month)
+                                      .where('"tickets"."unit_id" = ?', @unit.id)
+                                      .where('NOT ("product_tickets"."product_id" IN (?))',top_ids)
+                                      .top_by_ammount(:product_id, 10).map do |id, count|
+      Product.find(id)
+    end
+    @declining_products = ProductTicket.joins(:ticket).where('time >= ?', last_month)
+                                      .where('"tickets"."unit_id" = ?', @unit.id)
+                                      .where('NOT ("product_tickets"."product_id" IN (?))',bottom_ids)
+                                      .bottom_by_ammount(:product_id, 10).map do |id, count|
       Product.find(id)
     end
   end
 
   def top_products_chart
-    get_data
-    @top_products_chart = Hash[ProductTicket.where(product_id: @top_ids)
-                                            .joins(:ticket)
+    chart = Hash[ProductTicket.where(product_id: top_ids)
                                             .where('"tickets"."unit_id" = ?', @unit.id)
-                                            .group(:product_id)
-                                            .group_by_month(:time)
-                                            .count
-                                            .map do |key, cnt|
-                                              [[Product.where(id: key[0]).pluck(:name),key[1]],
-                                              cnt]
-                                            end
-                                            ]
-    render json: @top_products_chart.chart_json
+                                            .chartify(:ammount)]
+    render json: chart.chart_json
   end
 
   def bottom_products_chart
-    get_data
-    @bottom_products_chart = Hash[ProductTicket.where(product_id: @bottom_ids)
-                                                .joins(:ticket)
+    chart = Hash[ProductTicket.where(product_id: bottom_ids)
                                                 .where('"tickets"."unit_id" = ?', @unit.id)
-                                                .group(:product_id)
-                                                .group_by_month(:time)
-                                                .count
-                                                .map do |key, cnt|
-                                                  [[Product.where(id: key[0]).pluck(:name),key[1]],
-                                                  cnt]
-                                                end
-                                                ]
-    render json: @bottom_products_chart.chart_json
+                                                .chartify(:ammount)]
+    render json: chart.chart_json
+  end
+
+  def best_products_chart
+    chart = Hash[ProductTicket.where(product_id: best_ids)
+                                                .where('"tickets"."unit_id" = ?', @unit.id)
+                                                .chartify(:price)]
+    render json: chart.chart_json
+  end
+
+  def worst_products_chart
+    chart = Hash[ProductTicket.where(product_id: worst_ids)
+                                                .where('"tickets"."unit_id" = ?', @unit.id)
+                                                .chartify(:price)]
+    render json: chart.chart_json
   end
 
   # GET /units/new
@@ -102,6 +108,24 @@ class UnitsController < ApplicationController
   end
 
   private
+
+    def top_ids
+      @top_ids ||= ProductTicket.joins(:ticket).where('"tickets"."unit_id" = ?', @unit.id)
+                                                .top_by_ammount(:product_id, 10).map {|id, cnt| id}
+    end
+    def bottom_ids
+      @bottom_ids ||= ProductTicket.joins(:ticket).where('"tickets"."unit_id" = ?', @unit.id)
+                                                  .bottom_by_ammount(:product_id, 10).map {|id, cnt| id}
+    end
+
+    def best_ids
+      @best_ids ||= ProductTicket.joins(:ticket).where('"tickets"."unit_id" = ?', @unit.id)
+                                                .top_by_price(:product_id, 10).map {|id, cnt| id}
+    end
+    def worst_ids
+      @worst_ids ||= ProductTicket.joins(:ticket).where('"tickets"."unit_id" = ?', @unit.id)
+                                                  .bottom_by_price(:product_id, 10).map {|id, cnt| id}
+    end
 
     def get_data
       @top_ids ||= ProductTicket.joins(:ticket).where('"tickets"."unit_id" = ?', @unit.id).top(:product_id, 10).map {|id, cnt| id}

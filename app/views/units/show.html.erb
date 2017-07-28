@@ -1,59 +1,70 @@
-<p id="notice"><%= notice %></p>
-
+<div>
+    <h2 id="title"><%= @unit.name %></h2>
+</div>
 <div id="dash-container">
-
-    <p>
-      <strong>Name:</strong>
-      <%= @unit.name %>
-    </p>
-
-    <div class="panel">
-        <div class="panel-heading">
-            <h3 class="panel-title">Top 10 products</h3>
-        </div>
+    <%= panel 'Mejores 10 productos', 'por cantidad' do %>
         <ol>
             <% @top_products.each do |p| %>
                 <li><%= link_to p.name, p %></li>
             <% end %>
         </ol>
-    </div>
+    <% end %>
 
-    <div class="panel">
-        <div class="panel-heading">
-            <h3 class="panel-title">Top 10 products</h3>
-        </div>
-        <%= line_chart top_products_chart_unit_path(@unit), legend: "bottom" %>
-    </div>
+    <%= chart_panel 'Mejores 10 productos', 'por cantidad' do %>
+        <%= line_chart top_products_chart_unit_path(@unit)%>
+    <% end %>
 
-    <div class="panel">
-        <div class="panel-heading">
-            <h3 class="panel-title">Bottom 10 products</h3>
-        </div>
+
+    <%= panel 'Peores 10 productos', 'por cantidad' do %>
         <ol>
             <% @bottom_products.each do |p| %>
                 <li><%= link_to p.name, p %></li>
             <% end %>
         </ol>
-    </div>
+    <% end %>
 
-    <div class="panel">
-        <div class="panel-heading">
-            <h3 class="panel-title">Bottom 10 products</h3>
-        </div>
-        <%= line_chart bottom_products_chart_unit_path(@unit), legend: "bottom" %>
-    </div>
+    <%= chart_panel 'Peores 10 productos', 'por cantidad' do %>
+        <%= line_chart bottom_products_chart_unit_path(@unit)%>
+    <% end %>
 
-    <div class="panel">
-        <div class="panel-heading">
-            <h3 class="panel-title">Trending products</h3>
-        </div>
+    <%= panel 'Mejores 10 productos', 'por total vendido' do %>
+        <ol>
+            <% @best_products.each do |p| %>
+                <li><%= link_to p.name, p %></li>
+            <% end %>
+        </ol>
+    <% end %>
+
+    <%= chart_panel 'Mejores 10 productos', 'por total vendido' do %>
+        <%= line_chart best_products_chart_unit_path(@unit)%>
+    <% end %>
+
+
+    <%= panel 'Peores 10 productos', 'por total vendido' do %>
+        <ol>
+            <% @worst_products.each do |p| %>
+                <li><%= link_to p.name, p %></li>
+            <% end %>
+        </ol>
+    <% end %>
+
+    <%= chart_panel 'Peores 10 productos', 'por total vendido' do %>
+        <%= line_chart worst_products_chart_unit_path(@unit)%>
+    <% end %>
+
+    <%= panel 'Tendencias' do %>
         <ol>
             <% @trending_products.each do |p| %>
                 <li><%= link_to p.name, p %></li>
             <% end %>
         </ol>
-    </div>
-</div>
+    <% end %>
 
-<%= link_to 'Edit', edit_unit_path(@unit) %> |
-<%= link_to 'Back', units_path %>
+    <%= panel 'Productos en declive' do %>
+        <ol>
+            <% @declining_products.each do |p| %>
+                <li><%= link_to p.name, p %></li>
+            <% end %>
+        </ol>
+    <% end %>
+</div>

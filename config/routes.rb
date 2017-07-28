@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     member do
       get 'top_products_chart'
       get 'bottom_products_chart'
+      get 'best_products_chart'
+      get 'worst_products_chart'
     end
   end
   resources :products

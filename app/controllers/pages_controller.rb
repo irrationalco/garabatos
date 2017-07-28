@@ -3,11 +3,12 @@ class PagesController < ApplicationController
   end
 
   def dashboard
+    # top_ids.map {find} vs Product.where(id: top_ids)
     @top_products = top_ids.map {|id| Product.find(id) }
     @bottom_products = bottom_ids.map { |id| Product.find(id) }
     @best_products = best_ids.map {|id| Product.find(id) }
     @worst_products = worst_ids.map { |id| Product.find(id) }
-    # no esta jalando
+
     last_month = Ticket.group_by_month(:time).count.keys.sort[-1]
     @trending_products = ProductTicket.joins(:ticket).where('time >= ?', last_month)
                                       .where('NOT ("product_tickets"."product_id" IN (?))',top_ids)
