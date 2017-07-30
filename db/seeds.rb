@@ -8,32 +8,28 @@ Shift.create(name: 'Desayuno')
 ServiceType.create(name: 'Mostrador')
 ServiceType.create(name: 'Salon')
 
-ProductType.create(name: 'Principal')
-ProductType.create(name: 'Modificador')
-
-ProductSet.create(name: 'Alimentos')
-ProductSet.create(name: 'Pasteleria')
-ProductSet.create(name: 'Bebidas')
-
 require 'csv'
 
 CSV.foreach('db/units.csv') do |line|
   Unit.create(name: line[0])
 end
 
-CSV.foreach('db/productCategories.csv') do |line| 
-  ProductCategory.create(name: line[0])
+product_categories = [nil]
+CSV.foreach('db/productCategories.csv') do |line|
+  product_categories << line[0]
 end
 
+product_types = [nil,'Principal', 'Modificador']
+product_sets = [nil,'Alimentos', 'Pasteleria', 'Bebidas']
 CSV.foreach('db/products.csv') do |line|
   types = line[1].split('##').map do |t|
-    t.strip.to_i
+    product_types[t.strip.to_i]
   end
   categories = line[2].split('##').map do |t|
-    t.strip.to_i
+    product_categories[t.strip.to_i]
   end
   sets = line[3].split('##').map do |t|
-    t.strip.to_i
+    product_sets[t.strip.to_i]
   end
   codes = line[4].split('##').map do |t|
     t.strip

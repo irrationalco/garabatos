@@ -15,18 +15,6 @@ ActiveRecord::Schema.define(version: 20170701174241) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "product_categories", force: :cascade do |t|
-    t.text "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "product_sets", force: :cascade do |t|
-    t.text "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "product_tickets", force: :cascade do |t|
     t.bigint "product_id"
     t.bigint "ticket_id"
@@ -38,17 +26,11 @@ ActiveRecord::Schema.define(version: 20170701174241) do
     t.index ["ticket_id"], name: "index_product_tickets_on_ticket_id"
   end
 
-  create_table "product_types", force: :cascade do |t|
-    t.text "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "products", force: :cascade do |t|
     t.text "name"
-    t.integer "types", array: true
-    t.integer "categories", array: true
-    t.integer "sets", array: true
+    t.text "types", array: true
+    t.text "categories", array: true
+    t.text "sets", array: true
     t.text "codes", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
