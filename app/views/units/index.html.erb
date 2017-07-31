@@ -1,27 +1,22 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Units</h1>
+<h1>Sucursales</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div id="dash-container">
+  <%= panel 'Lista' do %>
+    <ol>
+      <% @units.each do |unit|%>
+        <li><%= link_to unit.name, unit%></li>
+      <% end %>
+    </ol>
+  <% end %>
 
-  <tbody>
-    <% @units.each do |unit| %>
-      <tr>
-        <td><%= unit.name %></td>
-        <td><%= link_to 'Show', unit %></td>
-        <td><%= link_to 'Edit', edit_unit_path(unit) %></td>
-        <td><%= link_to 'Destroy', unit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <%= chart_panel 'Cantidad de ventas' do %>
+      <%= line_chart units_ammount_chart_path%>
+  <% end %>
 
-<br>
+  <%= chart_panel 'Total vendido' do %>
+      <%= line_chart units_sales_chart_path%>
+  <% end %>
 
-<%= link_to 'New Unit', new_unit_path %>
+</div>

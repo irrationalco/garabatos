@@ -2,6 +2,7 @@ window.sidebarOpen = true
 window.sidebarOpenWidth = '200px'
 window.sidebarClosedWidth = '50px'
 window.resizingTable = 0
+window.activeLinkIdx = 1
 $(document).on 'click', '#toggle-button a', ->
   bar = $('#sidebar')
   if bar.hasClass 'open'
@@ -33,6 +34,8 @@ $(document).on 'turbolinks:before-render', (event) ->
   size = if window.sidebarOpen then window.sidebarOpenWidth else window.sidebarClosedWidth
   bar.width size
   $(event.originalEvent.data.newBody).find('#content').css 'margin-left': size
+  bar.find('li').removeClass('active')
+  $(bar.find('li')[window.activeLinkIdx]).addClass('active')
 
 $(window).resize ->
   resizeTable()
@@ -49,3 +52,13 @@ resizeTable = ->
         table.width table.parent().width()
         table.dataTable().fnAdjustColumnSizing()
     500
+
+$(document).on 'click', '#sidebar a', ->
+  target = $(event.target).closest('li').first()
+  unless target.attr('id') == 'toggle-button'
+    target = target[0]
+    for node, idx in $('#sidebar li')
+      debugger
+      if node == target
+        window.activeLinkIdx = idx
+        break

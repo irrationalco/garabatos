@@ -1,10 +1,10 @@
 class UnitsController < ApplicationController
-  before_action :set_unit, except: [:index, :new, :create]
+  before_action :set_unit, except: [:index, :new, :create, :ammount_chart, :sales_chart]
 
   # GET /units
   # GET /units.json
   def index
-    @units = Unit.all
+    @units = Unit.all.order(:name)
   end
 
   # GET /units/1
@@ -28,6 +28,30 @@ class UnitsController < ApplicationController
                                       .bottom_by_ammount(:product_id, 10).map do |id, count|
       Product.find(id)
     end
+  end
+
+  def ammount_chart
+    render json: Hash[ProductTicket.joins(:ticket).group(:unit_id)
+                                    .group_by_month(:time)
+                                    .order('sum_ammount DESC, unit_id')
+                                    .sum(:ammount)
+                                    .map do |key, cnt|
+                                      [[Unit.where(id: key[0]).pluck(:name),key[1]],
+                                      cnt]
+                                    end
+                                    ].chart_json
+  end
+
+  def sales_chart
+    render json: Hash[ProductTicket.joins(:ticket).group(:unit_id)
+                                    .group_by_month(:time)
+                                    .order('sum_price DESC, unit_id')
+                                    .sum(:price)
+                                    .map do |key, cnt|
+                                      [[Unit.where(id: key[0]).pluck(:name),key[1]],
+                                      cnt]
+                                    end
+                                    ].chart_json
   end
 
   def top_products_chart

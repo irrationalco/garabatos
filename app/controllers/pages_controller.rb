@@ -1,6 +1,4 @@
 class PagesController < ApplicationController
-  def home
-  end
 
   def dashboard
     # top_ids.map {find} vs Product.where(id: top_ids)
@@ -40,18 +38,6 @@ class PagesController < ApplicationController
   def worst_products_chart
     chart = Hash[ProductTicket.where(product_id: worst_ids).chartify(:price)]
     render json: chart.chart_json
-  end
-
-  def units_chart
-    render json: Hash[ProductTicket.joins(:ticket).group(:unit_id)
-                                            .group_by_month(:time)
-                                            .order('sum_ammount DESC, unit_id')
-                                            .sum(:ammount)
-                                            .map do |key, cnt|
-                                              [[Unit.where(id: key[0]).pluck(:name),key[1]],
-                                              cnt]
-                                            end
-                                            ].chart_json
   end
 
 private
