@@ -37,6 +37,15 @@ CSV.foreach('db/products.csv') do |line|
   Product.create(name: line[0], types: types, categories: categories, sets: sets, codes: codes)
 end
 
+CSV.foreach('db/costs_and_prices.csv') do |line|
+  id = line[0].to_i
+  avg_price = line[1].to_f
+  cost_ratio = line[2].to_f
+  Product.find(id).update(avg_price: avg_price, cost_ratio: cost_ratio)
+end
+
+puts 'Finished with products'
+
 require 'date'
 
 CSV.foreach('db/tickets.csv') do |line|
@@ -44,6 +53,8 @@ CSV.foreach('db/tickets.csv') do |line|
   #next if time.in_time_zone("Mexico City").year != 2017
   Ticket.create(unit_id: line[0].to_i, time: time, number: line[2].to_i, shift_id: line[3].to_i, service_type_id: line[4].to_i)
 end
+
+puts 'Finished with tickets'
 
 CSV.foreach('db/productTickets.csv') do |line|
   ProductTicket.create(product_id: line[0].to_i, ticket_id: line[1].to_i, ammount: line[2].to_f, price: line[3].to_f)

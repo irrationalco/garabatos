@@ -4,13 +4,14 @@ class ProductTicket < ApplicationRecord
   belongs_to :ticket
 
   def self.chartify sum_column
-    joins(:ticket)
+    res = joins(:ticket)
     .group(:product_id)
     .group_by_month(:time)
     .order("sum_#{sum_column} DESC, product_id")
     .sum(sum_column)
-    .map do |key, cnt|
-      [[Product.where(id: key[0]).pluck(:name),key[1]],
+    names = Product.select(:id,:name).where(id: res.keys.map {|x| x[0]}).index_by(&:id)
+    res.map do |key, cnt|
+      [[names[key[0]][:name],key[1]],
       cnt]
     end
   end
