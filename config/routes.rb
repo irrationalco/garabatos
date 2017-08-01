@@ -22,7 +22,6 @@ Rails.application.routes.draw do
       get 'ammount_chart'
       get 'utilities_chart'
       get 'price_chart'
-      get 'info_chart'
     end
   end
 

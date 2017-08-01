@@ -48,24 +48,6 @@ class ProductsController < ApplicationController
                               .average(:price)
   end
 
-  def info_chart
-    info = ProductTicket.select('SUM(ammount) as sum_ammount, SUM(price) as sum_price,'\
-                                ' AVG(price) as avg_price,'\
-                                "  (DATE_TRUNC('month', (time::timestamptz - INTERVAL '0 second') AT TIME ZONE 'Etc/UTC') + INTERVAL '0 second') AT TIME ZONE 'Etc/UTC' as time")
-                        .where(product_id: @product.id)
-                        .joins(:ticket)
-                        .group_by_month(:time)
-    result = {}
-    info.each do |i|
-      time = i.time.strftime("%a, %d %b %Y")
-      result[['Ventas', time]] = i.sum_ammount
-      result[['Utilidades', time]] = i.sum_price*(1-@product.cost_ratio)
-      result[['Precio', time]] = i.avg_price
-    end
-    p result
-    render json: result.chart_json
-  end
-
   def units_chart
     render json: ProductTicket.where(product_id: @product.id)
                   .joins(:ticket => :unit)

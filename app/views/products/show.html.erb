@@ -46,10 +46,6 @@
 <% if @product.avg_price %>
   <div class="dash-container">
 
-    <%= chart_panel 'Info' do %>
-      <%= line_chart info_chart_product_path(@product) %>
-    <% end %>
-
     <%= chart_panel 'Cantidad de ventas' do %>
       <%= line_chart ammount_chart_product_path(@product), legend: false %>
     <% end %>
