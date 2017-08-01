@@ -24,15 +24,16 @@ class UnitsController < ApplicationController
   end
 
   def ammount_chart
-    render json: Hash[ProductTicket.joins(:ticket).group(:unit_id)
+    res = ProductTicket.joins(:ticket).group(:unit_id)
                                     .group_by_month(:time)
                                     .order('sum_ammount DESC, unit_id')
                                     .sum(:ammount)
-                                    .map do |key, cnt|
-                                      [[Unit.where(id: key[0]).pluck(:name),key[1]],
-                                      cnt]
-                                    end
-                                    ].chart_json
+    names = Unit.select(:id,:name).where(id: (res.keys.map {|x| x[0]}).uniq).index_by(&:id)
+    render json: Hash[res.map do |key, cnt|
+                        [[names[key[0]][:name],key[1]],
+                        cnt]
+                      end
+                      ].chart_json
   end
 
   def top_products_chart

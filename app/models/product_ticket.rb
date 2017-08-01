@@ -19,7 +19,7 @@ class ProductTicket < ApplicationRecord
         sum*(1-product_info[key[0]][:ratio])]
       end
     else
-      names = Product.select(:id,:name).where(id: res.keys.map {|x| x[0]}).index_by(&:id)
+      names = Product.select(:id,:name).where(id: (res.keys.map {|x| x[0]}).uniq).index_by(&:id)
       res.map do |key, cnt|
         [[names[key[0]][:name],key[1]],
         cnt]
