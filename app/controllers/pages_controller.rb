@@ -2,10 +2,10 @@ class PagesController < ApplicationController
 
   def dashboard
     # top_ids.map {find} vs Product.where(id: top_ids)
-    @top_products = top_ids.map {|id| Product.find(id) }
-    @bottom_products = bottom_ids.map {|id| Product.find(id) }
-    @best_products = best_ids.map {|id| Product.find(id) }
-    @worst_products = worst_ids.map {|id| Product.find(id) }
+    @top_products = Product.get_ordered(top_ids)
+    @bottom_products = Product.get_ordered(bottom_ids)
+    @best_products = Product.get_ordered(best_ids)
+    @worst_products = Product.get_ordered(worst_ids)
   end
 
   def top_products_chart
