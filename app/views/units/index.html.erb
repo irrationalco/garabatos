@@ -15,4 +15,12 @@
       <%= line_chart units_ammount_chart_path%>
   <% end %>
 
+  <%= panel 'Mejores 10', 'por cantidad de ventas' do %>
+    <ol>
+      <% @top_units.each do |unit|%>
+        <li><%= link_to unit.name, unit%></li>
+      <% end %>
+    </ol>
+  <% end %>
+
 </div>

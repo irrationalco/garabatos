@@ -5,15 +5,21 @@ class UnitsController < ApplicationController
   # GET /units.json
   def index
     @units = Unit.all.order(:name)
+    @top_units = ProductTicket.joins(:ticket => :unit)
+                              .group(:unit_id)
+                              .order('sum_ammount DESC')
+                              .limit(10)
+                              .sum(:ammount)
+                              .map {|k,v| Unit.find(k)}
   end
 
   # GET /units/1
   # GET /units/1.json
   def show
-    @top_products = Product.where(id: top_ids)
-    @bottom_products = Product.where(id: bottom_ids)
-    @best_products = Product.where(id: best_ids)
-    @worst_products = Product.where(id: worst_ids)
+    @top_products = top_ids.map {|id| Product.find(id) }
+    @bottom_products = bottom_ids.map {|id| Product.find(id) }
+    @best_products = best_ids.map {|id| Product.find(id) }
+    @worst_products = worst_ids.map {|id| Product.find(id) }
   end
 
   def ammount_chart
