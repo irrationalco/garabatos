@@ -1,32 +1,42 @@
-<p id="notice"><%= notice %></p>
+<div>
+    <h2 id="title"><%= @product.name %></h2>
+</div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @product.name %>
-</p>
+<div id="dash-container">
 
-<p>
-  <strong>Types:</strong>
-  <%= @product.types.join(', ') %>
-</p>
+  <%= panel types_title do %>
+    <ul class="list-unstyled">
+      <% @product.types.each do |p| %>
+          <li><%= p %></li>
+      <% end %>
+    </ul>
+  <% end %>
 
-<p>
-  <strong>Categories:</strong>
-  <%= @product.categories.join(', ') %>
-</p>
+  <%= panel categories_title do %>
+    <ul class="list-unstyled">
+      <% @product.categories.each do |p| %>
+          <li><%= p %></li>
+      <% end %>
+    </ul>
+  <% end %>
 
-<p>
-  <strong>Sets:</strong>
-  <%= @product.sets.join(', ') %>
-</p>
+  <%= panel sets_title do %>
+    <ul class="list-unstyled">
+      <% @product.sets.each do |p| %>
+          <li><%= p %></li>
+      <% end %>
+    </ul>
+  <% end %>
 
-<p>
-  <strong>Codes:</strong>
-  <%= @product.codes.join(', ') %>
-</p>
+  <%= panel codes_title do %>
+    <ul class="list-unstyled">
+      <% @product.codes.each do |p| %>
+          <li><%= p %></li>
+      <% end %>
+    </ul>
+  <% end %>
 
-<%= link_to 'Edit', edit_product_path(@product) %> |
-<%= link_to 'Back', products_path %>
+</div>
 
 <p>
   <strong>Num:</strong>
