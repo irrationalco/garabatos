@@ -5,3 +5,7 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.dash-container {
+    @extend #dash-container;
+}

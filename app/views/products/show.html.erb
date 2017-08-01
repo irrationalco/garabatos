@@ -2,7 +2,7 @@
     <h2 id="title"><%= @product.name %></h2>
 </div>
 
-<div id="dash-container">
+<div class="dash-container">
 
   <%= panel types_title do %>
     <ul class="list-unstyled">
@@ -35,18 +35,48 @@
       <% end %>
     </ul>
   <% end %>
+  <% if @product.avg_price %>
+    <%= panel 'Precio promedio' do %>
+      <p>$<%= "%.2f" % [@product.avg_price] %></p>
+    <% end %>
+  <% end %>
 
 </div>
 
-<p>
-  <strong>Num:</strong>
-  <%= ProductTicket.where(product: @product).count %>
-</p>
-<p>By day of week</p>
-<%= column_chart ProductTicket.where(product: @product).joins(:ticket).group_by_day_of_week(:time).count.map{ |k, v| [I18n.t("date.day_names")[k], v] }%>
-<p>By month</p>
-<%= line_chart ProductTicket.where(product: @product).joins(:ticket).group_by_month(:time).count%>
-<p>By week</p>
-<%= line_chart ProductTicket.where(product: @product).joins(:ticket).group_by_week(:time).count%>
-<p>By month of year</p>
-<%= column_chart ProductTicket.where(product: @product).joins(:ticket).group_by_month_of_year(:time).count.map{ |k, v| [I18n.t("date.month_names")[k], v] }%>
+<% if @product.avg_price %>
+  <div class="dash-container">
+
+    <%= chart_panel 'Info' do %>
+      <%= line_chart info_chart_product_path(@product) %>
+    <% end %>
+
+    <%= chart_panel 'Cantidad de ventas' do %>
+      <%= line_chart ammount_chart_product_path(@product), legend: false %>
+    <% end %>
+
+    <%= chart_panel 'Precio' do %>
+      <%= line_chart price_chart_product_path(@product), legend: false %>
+    <% end %>
+
+    <%= chart_panel 'Utilidades' do %>
+      <%= line_chart utilities_chart_product_path(@product), legend: false %>
+    <% end %>
+
+    <%= panel 'Mejores Sucursales', 'por cantidad de ventas' do %>
+      <ol>
+        <% @top_units.each do |unit| %>
+          <li><%= link_to unit.name, unit_path(unit)%> </li>
+        <% end %>
+      </ol>
+    <% end %>
+
+    <%= chart_panel 'Sucursales', 'por cantidad de ventas' do %>
+      <%= line_chart units_chart_product_path(@product) %>
+    <% end %>
+
+  </div>
+<% else %>
+  <div id="no-data">
+    <h3>No hay datos de ventas para este producto</h3>
+  </div>
+<% end %>
