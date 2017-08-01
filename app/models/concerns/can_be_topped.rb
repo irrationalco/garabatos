@@ -2,20 +2,29 @@ module CanBeTopped
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def top_by_price(column, limit=nil)
-      relation = group(column).order('sum_price DESC')
+    def top_by_price(limit=nil)
+
+      prices = group(:product_id).select('"product_tickets"."product_id", SUM("product_tickets"."price") as sum_price')
+      result = Product.select('id, p.sum_price*(1-cost_ratio) as utilities')
+                      .where('cost_ratio IS NOT NULL')
+                      .joins("INNER JOIN (#{prices.to_sql}) p ON p.product_id = id")
+                      .order('utilities DESC, product_id')
       if limit
-        relation = relation.limit(limit)
+        result = result.limit(limit)
       end
-      relation.sum(:price)
+      result.map {|x| x.id}
     end
 
-    def bottom_by_price(column, limit=nil)
-      relation = group(column).order('sum_price')
+    def bottom_by_price(limit=nil)
+      prices = group(:product_id).select('"product_tickets"."product_id", SUM("product_tickets"."price") as sum_price')
+      result = Product.select('id, p.sum_price*(1-cost_ratio) as utilities')
+                      .where('cost_ratio IS NOT NULL')
+                      .joins("INNER JOIN (#{prices.to_sql}) p ON p.product_id = id")
+                      .order('utilities, product_id')
       if limit
-        relation = relation.limit(limit)
+        result = result.limit(limit)
       end
-      relation.sum(:price)
+      result.map {|x| x.id}
     end
 
     def top_by_ammount(column, limit=nil)
@@ -23,7 +32,7 @@ module CanBeTopped
       if limit
         relation = relation.limit(limit)
       end
-      relation.sum(:ammount)
+      relation.sum(:ammount).map {|id, cnt| id}
     end
 
     def bottom_by_ammount(column, limit=nil)
@@ -31,8 +40,8 @@ module CanBeTopped
       if limit
         relation = relation.limit(limit)
       end
-      relation.sum(:ammount)
+      relation.sum(:ammount).map {|id, cnt| id}
     end
-  end
 
+  end
 end

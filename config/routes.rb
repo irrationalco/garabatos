@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   get 'best_products_chart', to: 'pages#best_products_chart'
   get 'worst_products_chart', to: 'pages#worst_products_chart'
   get 'units_ammount_chart', to: 'units#ammount_chart'
-  get 'units_sales_chart', to: 'units#sales_chart'
 
   devise_for :users
 

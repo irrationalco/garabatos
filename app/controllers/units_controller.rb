@@ -28,43 +28,27 @@ class UnitsController < ApplicationController
                                     ].chart_json
   end
 
-  def sales_chart
-    render json: Hash[ProductTicket.joins(:ticket).group(:unit_id)
-                                    .group_by_month(:time)
-                                    .order('sum_price DESC, unit_id')
-                                    .sum(:price)
-                                    .map do |key, cnt|
-                                      [[Unit.where(id: key[0]).pluck(:name),key[1]],
-                                      cnt]
-                                    end
-                                    ].chart_json
-  end
-
   def top_products_chart
-    chart = Hash[ProductTicket.where(product_id: top_ids)
-                                            .where('"tickets"."unit_id" = ?', @unit.id)
-                                            .chartify(:ammount)]
+    chart = Hash[ProductTicket.chartify(:ammount, ProductTicket.where(product_id: top_ids)
+                                            .where(tickets: {unit_id: @unit.id}))]
     render json: chart.chart_json
   end
 
   def bottom_products_chart
-    chart = Hash[ProductTicket.where(product_id: bottom_ids)
-                                                .where('"tickets"."unit_id" = ?', @unit.id)
-                                                .chartify(:ammount)]
+    chart = Hash[ProductTicket.chartify(:ammount, ProductTicket.where(product_id: bottom_ids)
+                                                .where(tickets: {unit_id: @unit.id}))]
     render json: chart.chart_json
   end
 
   def best_products_chart
-    chart = Hash[ProductTicket.where(product_id: best_ids)
-                                                .where('"tickets"."unit_id" = ?', @unit.id)
-                                                .chartify(:price)]
+    chart = Hash[ProductTicket.chartify(:price, ProductTicket.where(product_id: best_ids)
+                                                .where(tickets: {unit_id: @unit.id}))]
     render json: chart.chart_json
   end
 
   def worst_products_chart
-    chart = Hash[ProductTicket.where(product_id: worst_ids)
-                                                .where('"tickets"."unit_id" = ?', @unit.id)
-                                                .chartify(:price)]
+    chart = Hash[ProductTicket.chartify(:price, ProductTicket.where(product_id: worst_ids)
+                                                .where(tickets: {unit_id: @unit.id}))]
     render json: chart.chart_json
   end
 
@@ -121,29 +105,20 @@ class UnitsController < ApplicationController
 
     def top_ids
       @top_ids ||= ProductTicket.joins(:ticket).where('"tickets"."unit_id" = ?', @unit.id)
-                                                .top_by_ammount(:product_id, 10).map {|id, cnt| id}
+                                                .top_by_ammount(:product_id, 10)
     end
     def bottom_ids
       @bottom_ids ||= ProductTicket.joins(:ticket).where('"tickets"."unit_id" = ?', @unit.id)
-                                                  .bottom_by_ammount(:product_id, 10).map {|id, cnt| id}
+                                                  .bottom_by_ammount(:product_id, 10)
     end
 
     def best_ids
       @best_ids ||= ProductTicket.joins(:ticket).where('"tickets"."unit_id" = ?', @unit.id)
-                                                .top_by_price(:product_id, 10).map {|id, cnt| id}
+                                                .top_by_price(10)
     end
     def worst_ids
       @worst_ids ||= ProductTicket.joins(:ticket).where('"tickets"."unit_id" = ?', @unit.id)
-                                                  .bottom_by_price(:product_id, 10).map {|id, cnt| id}
-    end
-
-    def get_data
-      @top_ids ||= ProductTicket.joins(:ticket).where('"tickets"."unit_id" = ?', @unit.id).top(:product_id, 10).map {|id, cnt| id}
-      @bottom_ids ||= ProductTicket.joins(:ticket).where('"tickets"."unit_id" = ?', @unit.id)
-                                              .group(:product_id).order("count_all, product_id")
-                                              .limit(10)
-                                              .count
-                                              .map {|id, cnt| id}
+                                                  .bottom_by_price(10)
     end
 
     # Use callbacks to share common setup or constraints between actions.

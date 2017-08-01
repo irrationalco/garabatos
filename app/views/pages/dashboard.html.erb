@@ -1,6 +1,6 @@
 <div id="dash-container">
 
-    <%= panel 'Mejores 10 productos', 'por cantidad' do %>
+    <%= panel 'Mejores 10 productos', 'por cantidad vendida' do %>
         <ol>
             <% @top_products.each do |p| %>
                 <li><%= link_to p.name, p %></li>
@@ -8,12 +8,12 @@
         </ol>
     <% end %>
 
-    <%= chart_panel 'Mejores 10 productos', 'por cantidad' do %>
+    <%= chart_panel 'Mejores 10 productos', 'por cantidad vendida' do %>
         <%= line_chart top_products_chart_path%>
     <% end %>
 
 
-    <%= panel 'Peores 10 productos', 'por cantidad' do %>
+    <%= panel 'Peores 10 productos', 'por cantidad vendida' do %>
         <ol>
             <% @bottom_products.each do |p| %>
                 <li><%= link_to p.name, p %></li>
@@ -21,11 +21,11 @@
         </ol>
     <% end %>
 
-    <%= chart_panel 'Peores 10 productos', 'por cantidad' do %>
+    <%= chart_panel 'Peores 10 productos', 'por cantidad vendida' do %>
         <%= line_chart bottom_products_chart_path%>
     <% end %>
 
-    <%= panel 'Mejores 10 productos', 'por total vendido' do %>
+    <%= panel 'Mejores 10 productos', 'por utilidad' do %>
         <ol>
             <% @best_products.each do |p| %>
                 <li><%= link_to p.name, p %></li>
@@ -33,12 +33,12 @@
         </ol>
     <% end %>
 
-    <%= chart_panel 'Mejores 10 productos', 'por total vendido' do %>
+    <%= chart_panel 'Mejores 10 productos', 'por utilidad' do %>
         <%= line_chart best_products_chart_path%>
     <% end %>
 
 
-    <%= panel 'Peores 10 productos', 'por total vendido' do %>
+    <%= panel 'Peores 10 productos', 'por utilidad' do %>
         <ol>
             <% @worst_products.each do |p| %>
                 <li><%= link_to p.name, p %></li>
@@ -46,7 +46,7 @@
         </ol>
     <% end %>
 
-    <%= chart_panel 'Peores 10 productos', 'por total vendido' do %>
+    <%= chart_panel 'Peores 10 productos', 'por utilidad' do %>
         <%= line_chart worst_products_chart_path%>
     <% end %>
 
