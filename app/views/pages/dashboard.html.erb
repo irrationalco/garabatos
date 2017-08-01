@@ -50,20 +50,4 @@
         <%= line_chart worst_products_chart_path%>
     <% end %>
 
-    <%= panel 'Tendencias' do %>
-        <ol>
-            <% @trending_products.each do |p| %>
-                <li><%= link_to p.name, p %></li>
-            <% end %>
-        </ol>
-    <% end %>
-
-    <%= panel 'Productos en declive' do %>
-        <ol>
-            <% @declining_products.each do |p| %>
-                <li><%= link_to p.name, p %></li>
-            <% end %>
-        </ol>
-    <% end %>
-
 </div>

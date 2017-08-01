@@ -14,6 +14,7 @@ $ ->
       {data: 'categories'}
       {data: 'sets'}
       {data: 'codes'}
+      {data: 'avg_price'}
     ]
     language:{
       url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json'

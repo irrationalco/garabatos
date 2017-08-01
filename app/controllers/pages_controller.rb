@@ -6,18 +6,6 @@ class PagesController < ApplicationController
     @bottom_products = Product.where(id: bottom_ids)
     @best_products = Product.where(id: best_ids)
     @worst_products = Product.where(id: worst_ids)
-
-    last_month = Ticket.group_by_month(:time).count.keys.sort[-1]
-    @trending_products = ProductTicket.joins(:ticket).where('time >= ?', last_month)
-                                      .where('NOT ("product_tickets"."product_id" IN (?))',top_ids)
-                                      .top_by_ammount(:product_id, 10).map do |id, count|
-      Product.find(id)
-    end
-    @declining_products = ProductTicket.joins(:ticket).where('time >= ?', last_month)
-                                      .where('NOT ("product_tickets"."product_id" IN (?))',bottom_ids)
-                                      .bottom_by_ammount(:product_id, 10).map do |id, count|
-      Product.find(id)
-    end
   end
 
   def top_products_chart

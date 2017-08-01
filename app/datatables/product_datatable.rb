@@ -7,10 +7,11 @@ class ProductDatatable < AjaxDatatablesRails::Base
     # or in aliased_join_table.column_name format
     @view_columns ||= {
       name: {source: 'Product.name'},
-      types: {source: 'Product.types', orderable: false},
-      categories: {source: 'Product.categories', orderable: false},
-      sets: {source: 'Product.sets', orderable: false},
-      codes: {source: 'Product.codes', orderable: false}
+      types: {source: 'Product.types'},
+      categories: {source: 'Product.categories'},
+      sets: {source: 'Product.sets'},
+      codes: {source: 'Product.codes'},
+      avg_price: {source: 'Product.avg_price'}
     }
   end
 
@@ -21,7 +22,8 @@ class ProductDatatable < AjaxDatatablesRails::Base
         types: record.types.join(', '),
         categories: record.categories.join(', '),
         sets: record.sets.join(', '),
-        codes: record.codes.join(', ')
+        codes: record.codes.join(', '),
+        avg_price: record.avg_price || 'N/A'
       }
     end
   end
