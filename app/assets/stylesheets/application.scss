@@ -10,15 +10,7 @@
 @import "units";
 @import "products";
 body {
-  padding-top: $navbar-height;
   background: #f1f4f5;
-}
-
-#navbar {
-  height: 50px;
-  background: #273135;
-  border: none;
-  color: #89949B;
 }
 
 a:hover,
@@ -102,4 +94,17 @@ a p {
 .chart-panel {
   width: 30vw;
   min-width: 400px;
+}
+
+#logo-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: -20px;
+}
+
+#logo {
+  max-width: 80vw;
+  height: auto;
 }

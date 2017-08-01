@@ -16,4 +16,13 @@ module ProductsHelper
     @product.codes.length > 1 ? 'Códigos' : 'Código'
   end
 
+  def correct_chart data, **options
+    if @just_one
+      options[:donut] = true
+      pie_chart data, options
+    else
+      line_chart data, options
+    end
+  end
+
 end

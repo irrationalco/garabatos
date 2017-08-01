@@ -43,5 +43,21 @@ module CanBeTopped
       relation.sum(:ammount).map {|id, cnt| id}
     end
 
+    def top_by_sales(column, limit=nil)
+      relation = group(column).order('sum_price DESC')
+      if limit
+        relation = relation.limit(limit)
+      end
+      relation.sum(:price).map {|id, cnt| id}
+    end
+
+    def bottom_by_sales(column, limit=nil)
+      relation = group(column).order('sum_price')
+      if limit
+        relation = relation.limit(limit)
+      end
+      relation.sum(:price).map {|id, cnt| id}
+    end
+
   end
 end

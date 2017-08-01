@@ -52,4 +52,29 @@
         <%= line_chart worst_products_chart_unit_path(@unit)%>
     <% end %>
 
+    <%= panel 'Mejores 10 productos', 'por total vendido' do %>
+        <ol>
+            <% @top_products_sales.each do |p| %>
+                <li><%= link_to p.name, p %></li>
+            <% end %>
+        </ol>
+    <% end %>
+
+    <%= chart_panel 'Mejores 10 productos', 'por total vendido' do %>
+        <%= line_chart top_products_sales_chart_unit_path(@unit)%>
+    <% end %>
+
+
+    <%= panel 'Peores 10 productos', 'por total vendido' do %>
+        <ol>
+            <% @bottom_products_sales.each do |p| %>
+                <li><%= link_to p.name, p %></li>
+            <% end %>
+        </ol>
+    <% end %>
+
+    <%= chart_panel 'Peores 10 productos', 'por total vendido' do %>
+        <%= line_chart bottom_products_sales_chart_unit_path(@unit)%>
+    <% end %>
+
 </div>

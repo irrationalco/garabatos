@@ -46,16 +46,34 @@
 <% if @product.avg_price %>
   <div class="dash-container">
 
-    <%= chart_panel 'Cantidad de ventas' do %>
-      <%= line_chart ammount_chart_product_path(@product), legend: false %>
-    <% end %>
+    <% if !@just_one %>
 
-    <%= chart_panel 'Precio' do %>
-      <%= line_chart price_chart_product_path(@product), legend: false %>
-    <% end %>
+      <%= chart_panel 'Cantidad de ventas' do %>
+        <%= line_chart ammount_chart_product_path(@product), legend: false %>
+      <% end %>
 
-    <%= chart_panel 'Utilidades' do %>
-      <%= line_chart utilities_chart_product_path(@product), legend: false %>
+      <%= chart_panel 'Precio' do %>
+        <%= line_chart price_chart_product_path(@product), legend: false %>
+      <% end %>
+
+      <%= chart_panel 'Utilidades' do %>
+        <%= line_chart utilities_chart_product_path(@product), legend: false %>
+      <% end %>
+
+    <% else %>
+
+      <%= panel 'Cantidad de ventas', 'unico mes vendido' do %>
+        <p><strong> <%= @ammount.keys[0].strftime("%m-%Y") %>: </strong><%= @ammount.values[0].round(2) %></p>
+      <% end %>
+
+      <%= panel 'Precio', 'unico mes vendido' do %>
+        <p><strong> <%= @price.keys[0].strftime("%m-%Y") %>: </strong><%= "$%.2f" % [@price.values[0]]%></p>
+      <% end %>
+
+      <%= panel 'Utilidades', 'unico mes vendido' do %>
+        <p><strong> <%= @utilities.keys[0].strftime("%m-%Y") %>: </strong><%= "$%.2f" % [@utilities.values[0]]%></p>
+      <% end %>
+
     <% end %>
 
     <%= panel 'Mejores Sucursales', 'por cantidad de ventas' do %>
@@ -67,7 +85,7 @@
     <% end %>
 
     <%= chart_panel 'Sucursales', 'por cantidad de ventas' do %>
-      <%= line_chart units_chart_product_path(@product) %>
+      <%= correct_chart units_chart_product_path(@product) %>
     <% end %>
 
   </div>

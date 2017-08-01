@@ -9,23 +9,10 @@
   </head>
 
   <body>
-    <nav id="navbar" class="navbar navbar-default navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <%= fa_icon 'bars'%>
-          </button>
-          <a class="navbar-brand" href="<%= root_url %>">
-            Garabatos
-            <!-- todo, logo garabatos -->
-          </a>
-        </div>
-      </div>
-    </nav>
     <div id="sidebar" class="open">
       <ul class="list-unstyled">
         <%= sidebar_link 'bars', 'Abrir/Cerrar', id: 'toggle-button' %>
-        <%= sidebar_link 'pie-chart', 'Dashboard', root_path%>
+        <%= sidebar_link 'pie-chart', 'Dashboard', dashboard_path%>
         <%= sidebar_link 'th-list', 'Productos', products_path %>
         <%= sidebar_link 'home', 'Sucursales', units_path %>
       </ul>
