@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   get 'units_ammount_chart', to: 'units#ammount_chart'
 
+  get 'pareto_chart', to: 'pages#pareto_chart'
+
   resources :units, only: [:index, :show] do
     member do
       get 'top_products_chart'

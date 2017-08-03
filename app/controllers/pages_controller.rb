@@ -43,6 +43,26 @@ class PagesController < ApplicationController
     render json: chart.chart_json
   end
 
+  def pareto_chart
+    prices = ProductTicket.group(:product_id).select('product_id, SUM(price) as sum_price')
+    result = Product.select('name, p.sum_price*(1-cost_ratio) as utilities')
+                    .where('cost_ratio IS NOT NULL')
+                    .joins("INNER JOIN (#{prices.to_sql}) p ON p.product_id = id")
+                    .order('utilities DESC, product_id')
+    total = result.sum {|r| r.utilities} / 100
+    sum = 0
+    info = {}
+    result.each do |r|
+      if sum >= 80
+        break
+      end
+      sum += r.utilities / total
+      info[r.name] = sum
+    end
+
+    render json: info
+  end
+
 private
   def top_ids
     @top_ids ||= ProductTicket.top_by_ammount(:product_id, 10)

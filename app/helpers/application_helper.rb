@@ -7,8 +7,8 @@ module ApplicationHelper
     end
   end
 
-  def chart_panel title, subtitle=nil, &block
-    content_tag :div, class: ['panel', 'chart-panel'] do
+  def chart_panel title, subtitle=nil, big_chart: false,  &block
+    content_tag :div, class: ['panel', big_chart ? 'big-chart' : 'chart-panel'] do
       concat (content_tag :div, class: 'panel-heading' do
         concat (content_tag :h3, title, class: 'panel-title')
         if subtitle

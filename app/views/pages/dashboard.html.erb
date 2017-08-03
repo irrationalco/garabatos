@@ -79,4 +79,8 @@
         <%= line_chart bottom_products_sales_chart_path%>
     <% end %>
 
+    <%= chart_panel 'Pareto a 80%', 'por utilidades', big_chart: true do %>
+        <%= line_chart pareto_chart_path, legend: false%>
+    <% end %>
+
 </div>
